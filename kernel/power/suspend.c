@@ -451,6 +451,7 @@ int enter_state(suspend_state_t state)
 	if (state == PM_SUSPEND_FREEZE)
 		freeze_begin();
 
+#ifdef CONFIG_PM_SYNC_BEFORE_SUSPEND
 	printk(KERN_INFO "PM: Syncing filesystems ... ");
 #if MTK_SOLUTION
 	error = suspend_syssync_enqueue();
@@ -462,6 +463,7 @@ int enter_state(suspend_state_t state)
 	sys_sync();
 #endif
 	printk("done.\n");
+#endif
 
 
 #ifdef CONFIG_EARLYSUSPEND_LEGACY
