@@ -4932,6 +4932,9 @@ static int xhci_hcd_driver_init(void)
 {
 	int retval;
 
+	if (usb_disabled())
+		return -ENODEV;
+
 	retval = xhci_register_pci();
 	if (retval < 0) {
 		printk(KERN_DEBUG "Problem registering PCI driver.");
@@ -4975,9 +4978,6 @@ static int xhci_hcd_driver_init(void)
 	BUILD_BUG_ON(sizeof(struct xhci_intr_reg) != 8*32/8);
 	/* xhci_run_regs has eight fields and embeds 128 xhci_intr_regs */
 	BUILD_BUG_ON(sizeof(struct xhci_run_regs) != (8+8*128)*32/8);
-
-	if (usb_disabled())
-		return -ENODEV;
 
 	return 0;
 
@@ -5117,6 +5117,9 @@ static int __init xhci_hcd_init(void)
 {
 	int retval;
 
+	if (usb_disabled())
+		return -ENODEV;
+
 	retval = xhci_register_pci();
 	if (retval < 0) {
 		printk(KERN_DEBUG "Problem registering PCI driver.");
@@ -5155,9 +5158,6 @@ static int __init xhci_hcd_init(void)
 	BUILD_BUG_ON(sizeof(struct xhci_intr_reg) != 8*32/8);
 	/* xhci_run_regs has eight fields and embeds 128 xhci_intr_regs */
 	BUILD_BUG_ON(sizeof(struct xhci_run_regs) != (8+8*128)*32/8);
-
-	if (usb_disabled())
-		return -ENODEV;
 
 	return 0;
 
