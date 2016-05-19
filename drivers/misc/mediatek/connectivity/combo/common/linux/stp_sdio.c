@@ -516,13 +516,13 @@ static INT32 stp_sdio_do_own_clr(INT32 wait)
 		if ((chlcpr_value & C_FW_COM_DRV_OWN) == C_FW_COM_DRV_OWN) {
             //4 <2> handle ownership back interrupt
             STPSDIO_DBG_FUNC("firmware ownback is polled!(%d)\n", CLR_OWN_RETRY - retry);
-            udelay(2000);
+            usleep_range(2000,2000);
 			break;
 		} else {
 			STPSDIO_DBG_FUNC
 			    ("firmware ownback is no polled, wait for (%d us) and retry\n",
 			     delay_us);
-			udelay(delay_us);
+			usleep_range(delay_us,delay_us);
 		}
 		if (0 == (retry - 1)%40)
 			STPSDIO_ERR_FUNC("own back failed in %d us, something might goes wrong\n", 40*delay_us);
