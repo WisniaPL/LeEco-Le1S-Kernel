@@ -105,8 +105,6 @@ enum {
 	Opt_mode,
 	Opt_io_size_bits,
 	Opt_fault_injection,
-	Opt_lazytime,
-	Opt_nolazytime,
 	Opt_err,
 };
 
@@ -140,8 +138,6 @@ static match_table_t f2fs_tokens = {
 	{Opt_mode, "mode=%s"},
 	{Opt_io_size_bits, "io_bits=%u"},
 	{Opt_fault_injection, "fault_injection=%u"},
-	{Opt_lazytime, "lazytime"},
-	{Opt_nolazytime, "nolazytime"},
 	{Opt_err, NULL},
 };
 
@@ -578,12 +574,6 @@ static int parse_options(struct super_block *sb, char *options)
 				"FAULT_INJECTION was not selected");
 #endif
 			break;
-		case Opt_lazytime:
-			sb->s_flags |= MS_LAZYTIME;
-			break;
-		case Opt_nolazytime:
-			sb->s_flags &= ~MS_LAZYTIME;
-			break;
 		default:
 			f2fs_msg(sb, KERN_ERR,
 				"Unrecognized mount option \"%s\" or missing value",
@@ -723,9 +713,6 @@ static void f2fs_dirty_inode(struct inode *inode, int flags)
 
 	if (inode->i_ino == F2FS_NODE_INO(sbi) ||
 			inode->i_ino == F2FS_META_INO(sbi))
-		return;
-
-	if (flags == I_DIRTY_TIME)
 		return;
 
 	if (is_inode_flag_set(inode, FI_AUTO_RECOVER))
@@ -1065,7 +1052,6 @@ static void default_options(struct f2fs_sb_info *sbi)
 	set_opt(sbi, INLINE_DENTRY);
 	set_opt(sbi, EXTENT_CACHE);
 	set_opt(sbi, NOHEAP);
-	sbi->sb->s_flags |= MS_LAZYTIME;
 	set_opt(sbi, FLUSH_MERGE);
 	if (f2fs_sb_mounted_blkzoned(sbi->sb)) {
 		set_opt_mode(sbi, F2FS_MOUNT_LFS);
