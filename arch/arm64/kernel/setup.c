@@ -606,8 +606,6 @@ static int c_show(struct seq_file *m, void *v)
 		seq_printf(m, "CPU revision\t: %d\n\n", read_cpuid_id() & 15);
 	}
 
-	seq_printf(m, "Hardware\t: %s\n", machine_name);
-
 	return 0;
 }
 
