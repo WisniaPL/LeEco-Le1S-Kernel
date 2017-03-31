@@ -42,7 +42,7 @@ export KBUILD_BUILD_HOST="PC"
 STRIP="/media/wks/System/aarch64-linux-android-4.9/bin/aarch64-linux-android-strip"
 MODULES_DIR=$KERNEL_DIR/arch/arm64/boot/AnyKernel2/modules
 echo "export USE_CCACHE=1" >> ~/.bashrc
-~/rr/prebuilts/misc/linux-x86/ccache/ccache -M 45G
+~/lineage/prebuilts/misc/linux-x86/ccache/ccache -M 45G
 echo -e "${green}"
 echo "--------------------------------------------------------"
 echo "      Initializing build to compile Ver: $ZIP_VER    "
@@ -63,7 +63,7 @@ make x500_defconfig
 echo -e "$yellow***********************************************"
 echo "          Cooking CHERRY         "
 echo -e "***********************************************$nocol"
-make -j8
+make -j8  | tee build.log
 cp -vr $KERN_IMG $REPACK_DIR/Image.gz-dtb
 cd $REPACK_DIR
 zip -r `echo $Phantom_VER$TC`.zip *
