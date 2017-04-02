@@ -63,7 +63,7 @@ make x500_defconfig
 echo -e "$yellow***********************************************"
 echo "          Cooking CHERRY         "
 echo -e "***********************************************$nocol"
-make -j8  | tee build.log
+make -j8 > build.log 2>&1
 cp -vr $KERN_IMG $REPACK_DIR/Image.gz-dtb
 cd $REPACK_DIR
 zip -r `echo $Phantom_VER$TC`.zip *
