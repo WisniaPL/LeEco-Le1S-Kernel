@@ -34,8 +34,8 @@ nocol='\033[0m'
 TC="UBERTC"
 # Modify the following variable if you want to build
 export ARCH=arm64
-export LD_LIBRARY_PATH="/media/wks/System/aarch64-linux-android-4.9/lib"
-export CROSS_COMPILE="/media/wks/System/aarch64-linux-android-4.9/bin/aarch64-linux-android-"
+export LD_LIBRARY_PATH="/home/wks/lineage/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/lib"
+export CROSS_COMPILE="/home/wks/lineage/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-"
 export SUBARCH=arm
 export KBUILD_BUILD_USER="WisniaPL"
 export KBUILD_BUILD_HOST="PC"
