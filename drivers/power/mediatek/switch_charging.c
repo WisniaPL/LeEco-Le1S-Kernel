@@ -408,13 +408,13 @@ static void set_jeta_max_charge_current(void)
                 g_temp_CC_value = CHARGE_CURRENT_4500_00_MA;
                 g_temp_input_CC_value = CHARGE_CURRENT_2000_00_MA;
         }
-       else if(g_temp_status == TEMP_POS_45_TO_POS_50)//45~50
+       else if(g_temp_status == TEMP_POS_45_TO_POS_52)//45~52
         {
                g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
                 g_temp_input_CC_value = CHARGE_CURRENT_2000_00_MA;
 
         }
-       else//50~
+       else//52~
         {
               g_temp_CC_value = CHARGE_CURRENT_0_00_MA;
                g_temp_input_CC_value = CHARGE_CURRENT_0_00_MA;
@@ -434,29 +434,29 @@ static void set_jeta_mhl_charge_current(void)
 
 	if (g_temp_status == TEMP_BELOW_0)//~0
 	{
-		g_temp_CC_value = CHARGE_CURRENT_500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 	}
 	else if (g_temp_status == TEMP_POS_0_TO_POS_10)//0~10
 	{
-		g_temp_CC_value = CHARGE_CURRENT_500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 	}
 	else if(g_temp_status == TEMP_POS_10_TO_POS_30)//10~30 2000
 	{
-		g_temp_CC_value = CHARGE_CURRENT_500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 	}
 	else if(g_temp_status == TEMP_POS_30_TO_POS_45)//30~45 1000
 	{
-		g_temp_CC_value = CHARGE_CURRENT_500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 
 	}
 	else//45~55 900
 	{
-		g_temp_CC_value = CHARGE_CURRENT_500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 
 	}
 	battery_xlog_printk(BAT_LOG_CRTI, "%s[BATTERY] JEITA set charging current : %d, %d\r\n",
@@ -473,28 +473,28 @@ static void set_jeita_charging_current(void)
 	if (g_temp_status == TEMP_BELOW_0)//~0
 	{
 		g_temp_CC_value = CHARGE_CURRENT_0_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_1600_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_2000_00_MA;
 	}
 	else if (g_temp_status == TEMP_POS_0_TO_POS_15)//0~10
 	{
 		g_temp_CC_value = CHARGE_CURRENT_600_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_1600_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_2000_00_MA;
 	}
 	else if(g_temp_status == TEMP_POS_15_TO_POS_45)//10~30 2000
 	{
-		g_temp_CC_value = CHARGE_CURRENT_1600_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_1600_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_2000_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_2000_00_MA;
 	}
 	else if(g_temp_status == TEMP_POS_45_TO_POS_50)//30~45 1000
 	{
-		g_temp_CC_value = CHARGE_CURRENT_1600_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_1600_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_2000_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_2000_00_MA;
 
 	}
 	else//45~55 900
 	{
-		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_1600_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_2000_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_2000_00_MA;
 
 	}
 	battery_xlog_printk(BAT_LOG_CRTI, "[BATTERY] %s JEITA set charging current : %d, %d\r\n",
@@ -520,19 +520,19 @@ static void set_jeita_charging_host_current(void)
 	}
 	else if(g_temp_status == TEMP_POS_15_TO_POS_45)//10~30 2000
 	{
-		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_2000_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_2000_00_MA;
 	}
 	else if(g_temp_status == TEMP_POS_45_TO_POS_50)//30~45 1000
 	{
-		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_2000_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_2000_00_MA;
 
 	}
 	else//45~55 900
 	{
-		g_temp_CC_value = CHARGE_CURRENT_900_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_1900_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_2000_00_MA;
 
 	}
 	battery_xlog_printk(BAT_LOG_CRTI, "[BATTERY] JEITA set charging current : %d, %d\r\n",
@@ -554,8 +554,8 @@ static void set_jeta_standard_host_current(void)
 	}
 	else if (g_temp_status == TEMP_POS_0_TO_POS_15)//0~10
 	{
-    	if(usb_charging_current >CHARGE_CURRENT_900_00_MA)
-    		g_temp_CC_value = CHARGE_CURRENT_900_00_MA;
+    	if(usb_charging_current >CHARGE_CURRENT_1900_00_MA)
+    		g_temp_CC_value = CHARGE_CURRENT_1900_00_MA;
         else
             g_temp_CC_value = usb_charging_current;
     
@@ -563,31 +563,31 @@ static void set_jeta_standard_host_current(void)
 	}
 	else if(g_temp_status == TEMP_POS_15_TO_POS_45)//10~30 2000
 	{
-    	if(usb_charging_current < CHARGE_CURRENT_1000_00_MA)
+    	if(usb_charging_current < CHARGE_CURRENT_2000_00_MA)
     		g_temp_CC_value = usb_charging_current;
         else
-            g_temp_CC_value = CHARGE_CURRENT_1000_00_MA;
+            g_temp_CC_value = CHARGE_CURRENT_2000_00_MA;
         
 		g_temp_input_CC_value = usb_charging_current;
 	}
 	else if(g_temp_status == TEMP_POS_45_TO_POS_50)//30~45 1000
 	{
-    	if(usb_charging_current < CHARGE_CURRENT_1000_00_MA)
+    	if(usb_charging_current < CHARGE_CURRENT_2000_00_MA)
     		g_temp_CC_value = usb_charging_current;
         else
-            g_temp_CC_value = CHARGE_CURRENT_1000_00_MA;
+            g_temp_CC_value = CHARGE_CURRENT_2000_00_MA;
         
 		g_temp_input_CC_value = usb_charging_current;
 
 	}
 	else//45~55 900
 	{
-    	if(usb_charging_current >CHARGE_CURRENT_900_00_MA)
-    		g_temp_CC_value = CHARGE_CURRENT_900_00_MA;
+    	if(usb_charging_current >CHARGE_CURRENT_1900_00_MA)
+    		g_temp_CC_value = CHARGE_CURRENT_1900_00_MA;
         else
             g_temp_CC_value = usb_charging_current;
         
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 
 	}
     
@@ -606,29 +606,29 @@ static void set_jeita_charging_current(void)
 
 	if (g_temp_status == TEMP_BELOW_NEG_10)//~0
 	{
-		g_temp_CC_value = CHARGE_CURRENT_500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 	}
 	else if (g_temp_status == TEMP_POS_0_TO_POS_10)//0~10
 	{
-		g_temp_CC_value = CHARGE_CURRENT_900_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_1900_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 	}
 	else if(g_temp_status == TEMP_POS_10_TO_POS_30)//10~30 2000
 	{
 		g_temp_CC_value = CHARGE_CURRENT_1600_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 	}
 	else if(g_temp_status == TEMP_POS_30_TO_POS_45)//30~45 1000
 	{
-		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_2000_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 
 	}
 	else//45~55 900
 	{
-		g_temp_CC_value = CHARGE_CURRENT_900_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_1900_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 
 	}
 	battery_xlog_printk(BAT_LOG_CRTI, "[BATTERY] JEITA set charging current : %d, %d\r\n",
@@ -645,29 +645,29 @@ static void set_jeita_charging_host_current(void)
 
 	if (g_temp_status == TEMP_BELOW_NEG_10)//~0
 	{
-		g_temp_CC_value = CHARGE_CURRENT_500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 	}
 	else if (g_temp_status == TEMP_POS_0_TO_POS_10)//0~10
 	{
-		g_temp_CC_value = CHARGE_CURRENT_900_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_1900_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 	}
 	else if(g_temp_status == TEMP_POS_10_TO_POS_30)//10~30 2000
 	{
 		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 	}
 	else if(g_temp_status == TEMP_POS_30_TO_POS_45)//30~45 1000
 	{
 		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 
 	}
 	else//45~55 900
 	{
-		g_temp_CC_value = CHARGE_CURRENT_900_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_1900_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 
 	}
 	battery_xlog_printk(BAT_LOG_CRTI, "[BATTERY] JEITA set charging current : %d, %d\r\n",
@@ -684,45 +684,45 @@ static void set_jeta_standard_host_current(void)
 
 	if (g_temp_status == TEMP_BELOW_NEG_10)//~0
 	{
-		g_temp_CC_value = CHARGE_CURRENT_500_00_MA;
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_CC_value = CHARGE_CURRENT_1500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 	}
 	else if (g_temp_status == TEMP_POS_0_TO_POS_10)//0~10
 	{
-    	if(usb_charging_current >CHARGE_CURRENT_900_00_MA)
-    		g_temp_CC_value = CHARGE_CURRENT_900_00_MA;
+    	if(usb_charging_current >CHARGE_CURRENT_1900_00_MA)
+    		g_temp_CC_value = CHARGE_CURRENT_1900_00_MA;
         else
             g_temp_CC_value = usb_charging_current;
     
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 	}
 	else if(g_temp_status == TEMP_POS_10_TO_POS_30)//10~30 2000
 	{
-    	if(usb_charging_current < CHARGE_CURRENT_1000_00_MA)
+    	if(usb_charging_current < CHARGE_CURRENT_2000_00_MA)
     		g_temp_CC_value = usb_charging_current;
         else
-            g_temp_CC_value = CHARGE_CURRENT_1000_00_MA;
+            g_temp_CC_value = CHARGE_CURRENT_2000_00_MA;
         
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 	}
 	else if(g_temp_status == TEMP_POS_30_TO_POS_45)//30~45 1000
 	{
-    	if(usb_charging_current < CHARGE_CURRENT_1000_00_MA)
+    	if(usb_charging_current < CHARGE_CURRENT_2000_00_MA)
     		g_temp_CC_value = usb_charging_current;
         else
-            g_temp_CC_value = CHARGE_CURRENT_1000_00_MA;
+            g_temp_CC_value = CHARGE_CURRENT_2000_00_MA;
         
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 
 	}
 	else//45~55 900
 	{
-    	if(usb_charging_current >CHARGE_CURRENT_900_00_MA)
-    		g_temp_CC_value = CHARGE_CURRENT_900_00_MA;
+    	if(usb_charging_current >CHARGE_CURRENT_1900_00_MA)
+    		g_temp_CC_value = CHARGE_CURRENT_1900_00_MA;
         else
             g_temp_CC_value = usb_charging_current;
         
-		g_temp_input_CC_value = CHARGE_CURRENT_500_00_MA;
+		g_temp_input_CC_value = CHARGE_CURRENT_1500_00_MA;
 
 	}
     
@@ -935,26 +935,26 @@ void select_charging_curret_bcct(void)
 
 		/* --------------------------------------------------- */
 		/* set IOCHARGE */
-		if (g_bcct_value < 550)
+		if (g_bcct_value < 1050)
 			g_temp_CC_value = CHARGE_CURRENT_0_00_MA;
-		else if (g_bcct_value < 650)
-			g_temp_CC_value = CHARGE_CURRENT_550_00_MA;
-		else if (g_bcct_value < 750)
-			g_temp_CC_value = CHARGE_CURRENT_650_00_MA;
-		else if (g_bcct_value < 850)
-			g_temp_CC_value = CHARGE_CURRENT_750_00_MA;
-		else if (g_bcct_value < 950)
-			g_temp_CC_value = CHARGE_CURRENT_850_00_MA;
-		else if (g_bcct_value < 1050)
-			g_temp_CC_value = CHARGE_CURRENT_950_00_MA;
 		else if (g_bcct_value < 1150)
 			g_temp_CC_value = CHARGE_CURRENT_1050_00_MA;
 		else if (g_bcct_value < 1250)
 			g_temp_CC_value = CHARGE_CURRENT_1150_00_MA;
-		else if (g_bcct_value == 1250)
+		else if (g_bcct_value < 1350)
 			g_temp_CC_value = CHARGE_CURRENT_1250_00_MA;
+		else if (g_bcct_value < 1450)
+			g_temp_CC_value = CHARGE_CURRENT_1350_00_MA;
+		else if (g_bcct_value < 1550)
+			g_temp_CC_value = CHARGE_CURRENT_1450_00_MA;
+		else if (g_bcct_value < 1650)
+			g_temp_CC_value = CHARGE_CURRENT_1550_00_MA;
+		else if (g_bcct_value < 1750)
+			g_temp_CC_value = CHARGE_CURRENT_1650_00_MA;
+		else if (g_bcct_value == 1850)
+			g_temp_CC_value = CHARGE_CURRENT_1750_00_MA;
 		else
-			g_temp_CC_value = CHARGE_CURRENT_650_00_MA;
+			g_temp_CC_value = CHARGE_CURRENT_950_00_MA;
 		/* --------------------------------------------------- */
 
 	} else {
