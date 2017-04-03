@@ -42,7 +42,7 @@ export KBUILD_BUILD_HOST="PC"
 STRIP="/media/wks/System/aarch64-linux-android-4.9/bin/aarch64-linux-android-strip"
 MODULES_DIR=$KERNEL_DIR/arch/arm64/boot/AnyKernel2/modules
 echo "export USE_CCACHE=1" >> ~/.bashrc
-~/lineage/prebuilts/misc/linux-x86/ccache/ccache -M 45G
+~/rr/prebuilts/misc/linux-x86/ccache/ccache -M 45G
 echo -e "${green}"
 echo "--------------------------------------------------------"
 echo "      Initializing build to compile Ver: $ZIP_VER    "
