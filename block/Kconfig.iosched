@@ -60,27 +60,6 @@ config CFQ_GROUP_IOSCHED
 	---help---
 	  Enable group IO scheduling in CFQ.
 
-config IOSCHED_BFQ
-	tristate "BFQ I/O scheduler"
-	default n
-	  The BFQ I/O scheduler tries to distribute bandwidth among
-	---help---
-	  all processes according to their weights.
-	  the disk parameters and with any workload. It also tries to
-	  It aims at distributing the bandwidth as desired, independently of
-	  guarantee low latency to interactive and soft real-time
-	  be configured to support hierarchical scheduling.
-	  applications. If compiled built-in (saying Y here), BFQ can
-
-config CGROUP_BFQIO
-	depends on CGROUPS && IOSCHED_BFQ=y
-	bool "BFQ hierarchical scheduling support"
-	default n
-	  Enable hierarchical scheduling in BFQ, using the cgroups
-	---help---
-	  filesystem interface.  The name of the subsystem will be
-	  bfqio.
-
 choice
 	prompt "Default I/O scheduler"
 	default DEFAULT_CFQ
@@ -116,16 +95,6 @@ choice
 	config DEFAULT_FIOPS
 		bool "FIOPS" if IOSCHED_FIOPS=y
 
-	config DEFAULT_BFQ
-		help
-		bool "BFQ" if IOSCHED_BFQ=y
-		  Selects BFQ as the default I/O scheduler which will be
-		  used by default for all block devices.
-		  The BFQ I/O scheduler aims at distributing the bandwidth
-		  as desired, independently of the disk parameters and with
-		  any workload. It also tries to guarantee low latency to
-
-		  interactive and soft real-time applications.
 endchoice
 
 config DEFAULT_IOSCHED
@@ -134,7 +103,6 @@ config DEFAULT_IOSCHED
 	default "row" if DEFAULT_ROW
 	default "sio" if DEFAULT_SIO
 	default "cfq" if DEFAULT_CFQ
-	default "bfq" if DEFAULT_BFQ
 	default "noop" if DEFAULT_NOOP
 	default "fiops" if DEFAULT_FIOPS
 	default "sio" if DEFAULT_SIO
