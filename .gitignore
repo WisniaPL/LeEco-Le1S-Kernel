@@ -55,6 +55,7 @@ modules.builtin
 #
 !.gitignore
 !.mailmap
+!.travis.yml
 
 #
 # Generated include files
