@@ -1,5 +1,5 @@
 config MTK_SMI_EXT
 	bool "SMI Driver"
-	default n
+	default y
 	help
 	  SMI Driver is used to arbitrate memory bandwidth of multimedia
