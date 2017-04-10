@@ -33,13 +33,16 @@ blink_red='\033[05;31m'
 nocol='\033[0m'
 TC="UBERTC"
 # Modify the following variable if you want to build
+export KBUILD_BUILD_USER="WisniaPL"
+export KBUILD_BUILD_HOST="TravisCI"
+echo "Hello from Travis!"
+echo "Skipping export variables. I iz da kewl bot!"
+is_travis=true
 export ARCH=arm64
 export LD_LIBRARY_PATH="$HOME/android_prebuilt_toolchains/lib"
-export CROSS_COMPILE="$HOME/android_prebuilt_toolchains/bin/aarch64-linux-androidkernel-\"
-export SUBARCH=arm
-export KBUILD_BUILD_USER="WisniaPL"
-export KBUILD_BUILD_HOST="PC"
-STRIP="$HOME/android_prebuilt_toolchains/bin/aarch64-linux-androidkernel-\"
+export CROSS_COMPILE="$HOME/android_prebuilt_toolchains/bin/aarch64-linux-android-"
+export SUBARCH=arm64
+export STRIP="$HOME/android_prebuilt_toolchains/bin/aarch64-linux-android-"
 MODULES_DIR=$KERNEL_DIR/arch/arm64/boot/AnyKernel2/modules
 echo -e "${green}"
 echo "--------------------------------------------------------"
