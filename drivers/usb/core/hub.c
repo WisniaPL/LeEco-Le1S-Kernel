@@ -1167,7 +1167,6 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
 		}
 		if (type == HUB_INIT2)
 			goto init2;
-
 		goto init3;
 	}
 	kref_get(&hub->kref);
