@@ -6,17 +6,11 @@ config TRUSTONIC_TEE_SUPPORT
 	default n
 	---help---
 	  Enable Trustonic TEE Support
-
 config TRUSTONIC_TEE_VERSION
+
 	string "TRUSTONIC TEE Version"
 	depends on TRUSTONIC_TEE_SUPPORT
 	default "302c" if (ARCH_MT6795)
-
-config MT_TRUSTONIC_TEE_DEBUGFS
-	bool "Enable Trustonic TEE debugfs"
-	default n
-	---help---
-	  Enable Trustonic TEE debugfs
 
 #
 # MobiCore configuration

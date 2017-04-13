@@ -24,7 +24,9 @@
 
 //#define M4U_FPGAPORTING
 #define M4U_PROFILE
+#ifdef CONFIG_MTK_LM_MODE
 #define M4U_4GBDRAM
+#endif
 #define M4U_DVT 0
 
 #ifndef M4U_PROFILE
@@ -185,8 +187,9 @@ int m4u_enable_tf(int port, bool fgenable);
 
 
 extern int gM4U_4G_DRAM_Mode;
+#ifdef M4U_4GBDRAM
 extern unsigned int enable_4G(void);
-
+#endif
 //=================================
 //==== define in m4u.c     =====
 int m4u_dump_buf_info(struct seq_file * seq);
@@ -255,7 +258,7 @@ do{\
         if(seq_file)\
             seq_printf(seq_file, fmt, ##args);\
         else\
-            pr_debug(fmt, ##args);\
+            pr_warn(fmt, ##args);\
     }while(0)
 
 

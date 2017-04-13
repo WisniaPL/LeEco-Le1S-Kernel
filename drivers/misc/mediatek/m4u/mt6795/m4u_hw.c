@@ -2360,7 +2360,7 @@ int m4u_hw_init(struct m4u_device *m4u_dev, int m4u_id)
     pM4URegBackUp = (unsigned int*)kmalloc(M4U_REG_BACKUP_SIZE, GFP_KERNEL|__GFP_ZERO);
     if(pM4URegBackUp==NULL)
     {
-        M4UMSG("Physical memory not available size=%d.\n", (unsigned int) M4U_REG_BACKUP_SIZE);
+        M4UMSG("Physical memory not available size=%d.\n", (int) M4U_REG_BACKUP_SIZE);
         return -1;
     }    
 
