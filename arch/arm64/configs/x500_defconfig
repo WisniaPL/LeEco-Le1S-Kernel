@@ -3017,7 +3017,7 @@ CONFIG_CRYPTO_ABLK_HELPER=y
 #
 # Authenticated Encryption with Associated Data
 #
-# CONFIG_CRYPTO_CCM is not set
+CONFIG_CRYPTO_CCM=y
 # CONFIG_CRYPTO_GCM is not set
 CONFIG_CRYPTO_SEQIV=y
 
