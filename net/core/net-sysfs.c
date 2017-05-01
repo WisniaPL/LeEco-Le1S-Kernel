@@ -564,8 +564,7 @@ static ssize_t store_rps_map(struct netdev_rx_queue *queue,
 	}
 
 	i = 0;
-	/*for_each_cpu_and(cpu, mask, cpu_online_mask)*/
-	for_each_cpu_and(cpu, mask, cpu_present_mask)
+	for_each_cpu_and(cpu, mask, cpu_online_mask)
 		map->cpus[i++] = cpu;
 
 	if (i)

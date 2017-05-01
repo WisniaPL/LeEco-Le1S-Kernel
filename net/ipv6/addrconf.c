@@ -186,7 +186,8 @@ static struct ipv6_devconf ipv6_devconf __read_mostly = {
 	.rtr_solicits		= MAX_RTR_SOLICITATIONS,
 	.rtr_solicit_interval	= RTR_SOLICITATION_INTERVAL,
 	.rtr_solicit_delay	= MAX_RTR_SOLICITATION_DELAY,
-	.use_tempaddr 		= 0,
+#ifdef CONFIG_IPV6_PRIVACY
+	.use_tempaddr 		= 1,
 	.temp_valid_lft		= TEMP_VALID_LIFETIME,
 	.temp_prefered_lft	= TEMP_PREFERRED_LIFETIME,
 	.regen_max_retry	= REGEN_MAX_RETRY,
@@ -223,7 +224,8 @@ static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
 	.rtr_solicits		= MAX_RTR_SOLICITATIONS,
 	.rtr_solicit_interval	= RTR_SOLICITATION_INTERVAL,
 	.rtr_solicit_delay	= MAX_RTR_SOLICITATION_DELAY,
-	.use_tempaddr		= 0,
+#ifdef CONFIG_IPV6_PRIVACY
+	.use_tempaddr		= 1,
 	.temp_valid_lft		= TEMP_VALID_LIFETIME,
 	.temp_prefered_lft	= TEMP_PREFERRED_LIFETIME,
 	.regen_max_retry	= REGEN_MAX_RETRY,
@@ -3281,7 +3283,7 @@ static void addrconf_rs_timer(unsigned long data)
 		 * Note: we do not support deprecated "all on-link"
 		 * assumption any longer.
 		 */
-		pr_debug("%s: no IPv6 routers present\n", idev->dev->name);
+		printk("%s: no IPv6 routers present\n", idev->dev->name);
 	}
 
 out:
@@ -4791,7 +4793,8 @@ static void __ipv6_ifa_notify(int event, struct inet6_ifaddr *ifp)
 		addrconf_leave_solict(ifp->idev, &ifp->addr);
 		dst_hold(&ifp->rt->dst);
 
-		ip6_del_rt(ifp->rt);
+		if (ip6_del_rt(ifp->rt))
+			dst_free(&ifp->rt->dst);
 		break;
 	}
 	atomic_inc(&net->ipv6.dev_addr_genid);
@@ -4838,15 +4841,17 @@ errout:
 static int inet6_fill_nora(struct sk_buff *skb, struct inet6_dev *idev,
 			      u32 portid, u32 seq,int event, unsigned int flags)
 {
-struct net_device *dev = idev->dev;
+    struct net_device *dev = idev->dev;
 	struct nlmsghdr *nlh;
 	struct ifinfomsg *hdr;
-
+	void *protoinfo;
+	char *name;
+	
 	nlh = nlmsg_put(skb, portid, seq, event, sizeof(*hdr), flags);
 	if (nlh == NULL)
 		return -EMSGSIZE;
 
-	hdr = nlmsg_data(nlh);
+    hdr = nlmsg_data(nlh);
 	hdr->ifi_family = AF_INET6;
 	hdr->__ifi_pad = 0;
 	hdr->ifi_type = dev->type;
@@ -4856,6 +4861,10 @@ struct net_device *dev = idev->dev;
 
 	return nlmsg_end(skb, nlh);
 
+
+nla_put_failure:
+	nlmsg_cancel(skb, nlh);
+	return -EMSGSIZE;
 }
 #ifdef CONFIG_SYSCTL
 
