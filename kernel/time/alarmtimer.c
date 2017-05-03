@@ -155,8 +155,9 @@ void alarm_set_power_on(struct timespec new_pwron_time, bool logo)
 	struct rtc_device *alarm_rtc_dev;
 //	ktime_t now;
 	
-	alarm_dbg(INFO, "alarm set power on\n");
-	
+	printk("alarm set power on\n");
+
+#define RTC_PWRON_SEC -90
 #ifdef RTC_PWRON_SEC
 	/* round down the second */
 	new_pwron_time.tv_sec = (new_pwron_time.tv_sec / 60) * 60;
