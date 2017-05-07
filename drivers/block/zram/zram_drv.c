@@ -39,7 +39,7 @@
 #include <linux/rbtree.h>
 #include <linux/time.h>
 #endif
-#include "zram_drv.h"
+#include <linux/zram_drv.h>
 
 #ifdef CONFIG_MT_ENG_BUILD
 #define GUIDE_BYTES_LENGTH	64
