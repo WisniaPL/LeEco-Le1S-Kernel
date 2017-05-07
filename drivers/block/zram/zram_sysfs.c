@@ -17,7 +17,7 @@
 #include <linux/mm.h>
 #include <linux/kernel.h>
 
-#include "zram_drv.h"
+#include <linux/zram_drv.h>
 
 static u64 zram_stat64_read(struct zram *zram, u64 *v)
 {
