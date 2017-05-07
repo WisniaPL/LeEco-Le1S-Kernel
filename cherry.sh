@@ -34,15 +34,13 @@ nocol='\033[0m'
 TC="UBERTC"
 # Modify the following variable if you want to build
 export ARCH=arm64
-export LD_LIBRARY_PATH="/home/wks/lineage/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/lib"
-export CROSS_COMPILE="/home/wks/lineage/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-"
+export LD_LIBRARY_PATH="/home/wisniapl/aarch64-linux-android-6.0/lib"
+export CROSS_COMPILE="/home/wisniapl/aarch64-linux-android-6.0/bin/aarch64-linux-android-"
 export SUBARCH=arm
 export KBUILD_BUILD_USER="WisniaPL"
 export KBUILD_BUILD_HOST="PC"
-STRIP="/media/wks/System/aarch64-linux-android-4.9/bin/aarch64-linux-android-strip"
+STRIP="/home/wisniapl/aarch64-linux-android-6.0/bin/aarch64-linux-android-strip"
 MODULES_DIR=$KERNEL_DIR/arch/arm64/boot/AnyKernel2/modules
-echo "export USE_CCACHE=1" >> ~/.bashrc
-~/rr/prebuilts/misc/linux-x86/ccache/ccache -M 45G
 echo -e "${green}"
 echo "--------------------------------------------------------"
 echo "      Initializing build to compile Ver: $ZIP_VER    "
