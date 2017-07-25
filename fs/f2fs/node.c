@@ -1885,10 +1885,12 @@ static void update_free_nid_bitmap(struct f2fs_sb_info *sbi, nid_t nid,
 	else
 		__clear_bit_le(nid_ofs, nm_i->free_nid_bitmap[nat_ofs]);
 
+	spin_lock(&nm_i->free_nid_lock);
 	if (set)
 		nm_i->free_nid_count[nat_ofs]++;
 	else if (!build)
 		nm_i->free_nid_count[nat_ofs]--;
+	spin_unlock(&nm_i->free_nid_lock);
 }
 
 static void scan_nat_page(struct f2fs_sb_info *sbi,
@@ -1917,9 +1919,7 @@ static void scan_nat_page(struct f2fs_sb_info *sbi,
 		f2fs_bug_on(sbi, blk_addr == NEW_ADDR);
 		if (blk_addr == NULL_ADDR)
 			freed = add_free_nid(sbi, start_nid, true);
-		spin_lock(&NM_I(sbi)->nid_list_lock);
 		update_free_nid_bitmap(sbi, start_nid, freed, true);
-		spin_unlock(&NM_I(sbi)->nid_list_lock);
 	}
 }
 
@@ -2684,6 +2684,9 @@ static int init_free_nid_cache(struct f2fs_sb_info *sbi)
 					sizeof(unsigned short), GFP_KERNEL);
 	if (!nm_i->free_nid_count)
 		return -ENOMEM;
+
+	spin_lock_init(&nm_i->free_nid_lock);
+
 	return 0;
 }
 
