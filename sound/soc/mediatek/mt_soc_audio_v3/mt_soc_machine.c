@@ -533,12 +533,18 @@ static ssize_t mt_soc_debug_write(struct file *f, const char __user *buf,
 	char *token5 = NULL;
 	char *temp = NULL;
 
-	long unsigned int regaddr = 0;
-	long unsigned int regvalue = 0;
-	char delim[] = " ,";
-	memset((void *)InputString, 0, 256);
-	if (copy_from_user((InputString), buf, count))
-		pr_warn("copy_from_user mt_soc_debug_write count = %zu temp = %s\n", count, InputString);
+    long unsigned int regaddr = 0;
+    long unsigned int regvalue = 0;
+    char delim[] = " ,";
+    memset((void *)InputString, 0, 256);
+
+    if (count > 256)
+        count = 256;
+
+    if (copy_from_user((InputString), buf, count))
+    {
+        printk("copy_from_user mt_soc_debug_write count = %zu temp = %s\n", count, InputString);
+    }
 
 	temp = kstrdup(InputString, GFP_KERNEL);
 	pr_warn("copy_from_user mt_soc_debug_write count = %zu temp = %s pointer = %p\n",
