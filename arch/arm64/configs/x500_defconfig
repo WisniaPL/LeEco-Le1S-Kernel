@@ -2680,7 +2680,6 @@ CONFIG_MTK_EIC=y
 # Android
 #
 CONFIG_ANDROID_BINDER_IPC=y
-CONFIG_ANDROID_BINDER_DEVICES="binder,hwbinder"
 
 #
 # File systems
