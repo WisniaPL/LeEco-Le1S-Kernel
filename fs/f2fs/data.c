@@ -94,11 +94,7 @@ static void f2fs_write_end_io(struct bio *bio, int err)
 		struct page *page = bvec->bv_page;
 		enum count_type type = WB_DATA_TYPE(page);
 
-		if (IS_DUMMY_WRITTEN_PAGE(page)) {
-			set_page_private(page, (unsigned long)NULL);
-			ClearPagePrivate(page);
-			unlock_page(page);
-			mempool_free(page, sbi->write_io_dummy);
+		fscrypt_pullback_bio_page(&page, true);
 
 			if (unlikely(err))
 				f2fs_stop_checkpoint(sbi, true);
@@ -263,9 +259,6 @@ static bool __has_merged_page(struct f2fs_bio_info *io,
 			target = bvec->bv_page;
 		else
 			target = fscrypt_control_page(bvec->bv_page);
-
-		if (idx != target->index)
-			continue;
 
 		if (inode && inode == target->mapping->host)
 			return true;
@@ -1231,9 +1224,25 @@ submit_and_realloc:
 			bio = NULL;
 		}
 		if (bio == NULL) {
-			bio = f2fs_grab_bio(inode, block_nr, nr_pages);
-			if (IS_ERR(bio)) {
-				bio = NULL;
+			struct fscrypt_ctx *ctx = NULL;
+
+			if (f2fs_encrypted_inode(inode) &&
+					S_ISREG(inode->i_mode)) {
+
+				ctx = fscrypt_get_ctx(inode);
+				if (IS_ERR(ctx))
+					goto set_error_page;
+
+				/* wait the page to be moved by cleaning */
+				f2fs_wait_on_encrypted_page_writeback(
+						F2FS_I_SB(inode), block_nr);
+			}
+
+			bio = bio_alloc(GFP_KERNEL,
+				min_t(int, nr_pages, bio_get_nr_vecs(bdev)));
+			if (!bio) {
+				if (ctx)
+					fscrypt_release_ctx(ctx);
 				goto set_error_page;
 			}
 			bio_set_op_attrs(bio, REQ_OP_READ, 0);
@@ -1385,6 +1394,19 @@ got_it:
 	err = encrypt_one_page(fio);
 	if (err)
 		goto out_writepage;
+
+	if (f2fs_encrypted_inode(inode) && S_ISREG(inode->i_mode)) {
+
+		/* wait for GCed encrypted page writeback */
+		f2fs_wait_on_encrypted_page_writeback(F2FS_I_SB(inode),
+							fio->old_blkaddr);
+
+		fio->encrypted_page = fscrypt_encrypt_page(inode, fio->page);
+		if (IS_ERR(fio->encrypted_page)) {
+			err = PTR_ERR(fio->encrypted_page);
+			goto out_writepage;
+		}
+	}
 
 	set_page_writeback(page);
 
@@ -1920,9 +1942,12 @@ repeat:
 			f2fs_put_page(page, 1);
 			goto repeat;
 		}
-		if (unlikely(!PageUptodate(page))) {
-			err = -EIO;
-			goto fail;
+
+		/* avoid symlink page */
+		if (f2fs_encrypted_inode(inode) && S_ISREG(inode->i_mode)) {
+			err = fscrypt_decrypt_page(page);
+			if (err)
+				goto fail;
 		}
 	}
 	return 0;

@@ -549,7 +549,7 @@ static int truncate_partial_data_page(struct inode *inode, u64 from,
 		return PTR_ERR(page) == -ENOENT ? 0 : PTR_ERR(page);
 truncate_out:
 	f2fs_wait_on_page_writeback(page, DATA, true);
-	zero_user(page, offset, PAGE_SIZE - offset);
+	zero_user(page, offset, PAGE_CACHE_SIZE - offset);
 	if (!cache_only || !f2fs_encrypted_inode(inode) ||
 					!S_ISREG(inode->i_mode))
 		set_page_dirty(page);
@@ -1816,16 +1816,30 @@ static bool uuid_is_nonzero(__u8 u[16])
 
 static int f2fs_ioc_set_encryption_policy(struct file *filp, unsigned long arg)
 {
+	struct fscrypt_policy policy;
 	struct inode *inode = file_inode(filp);
 
-	f2fs_update_time(F2FS_I_SB(inode), REQ_TIME);
+	if (copy_from_user(&policy, (struct fscrypt_policy __user *)arg,
+							sizeof(policy)))
+		return -EFAULT;
 
-	return fscrypt_ioctl_set_policy(filp, (const void __user *)arg);
+	f2fs_update_time(F2FS_I_SB(inode), REQ_TIME);
+	return fscrypt_process_policy(inode, &policy);
 }
 
 static int f2fs_ioc_get_encryption_policy(struct file *filp, unsigned long arg)
 {
-	return fscrypt_ioctl_get_policy(filp, (void __user *)arg);
+	struct fscrypt_policy policy;
+	struct inode *inode = file_inode(filp);
+	int err;
+
+	err = fscrypt_get_policy(inode, &policy);
+	if (err)
+		return err;
+
+	if (copy_to_user((struct fscrypt_policy __user *)arg, &policy, sizeof(policy)))
+		return -EFAULT;
+	return 0;
 }
 
 static int f2fs_ioc_get_encryption_pwsalt(struct file *filp, unsigned long arg)
