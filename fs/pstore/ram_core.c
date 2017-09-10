@@ -492,6 +492,10 @@ struct persistent_ram_zone *persistent_ram_new(phys_addr_t start, size_t size,
 		goto err;
 	}
 
+	/* Initialize general buffer state. */
+	raw_spin_lock_init(&prz->buffer_lock);
+	prz->flags = flags;
+
 	ret = persistent_ram_buffer_map(start, size, prz, memtype);
 	if (ret)
 		goto err;
