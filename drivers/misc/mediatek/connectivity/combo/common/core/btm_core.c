@@ -132,7 +132,7 @@ static INT32 _stp_btm_put_dump_to_nl(VOID)
 	STP_PACKET_T *pkt;
 	STP_DBG_HDR_T *hdr;
 	INT32 remain = 0, index = 0;
-	INT32 retry = 0, rc = 0, nl_retry = 0;
+	INT32 retry = 0, rc = 0;
 	INT32 len;
 
 	STP_BTM_INFO_FUNC("Enter..\n");
@@ -152,34 +152,17 @@ static INT32 _stp_btm_put_dump_to_nl(VOID)
 			osal_memcpy(&tmp[index], &len, 2);
 			index += 2;
 			if (hdr->dbg_type == STP_DBG_FW_DMP) {
-				osal_memcpy(&tmp[index], pkt->raw, len);
+				osal_memcpy(&tmp[index], pkt->raw, pkt->hdr.len);
 
 				if (pkt->hdr.len <= 1500) {
+					tmp[index + pkt->hdr.len] = '\n';
+					tmp[index + pkt->hdr.len + 1] = '\0';
 
 					/* pr_warn("\n%s\n+++\n", tmp); */
-					rc = stp_dbg_nl_send((PINT8) &tmp, 2, index+len);
+					rc = stp_btm_dump_send_retry_handler((PINT8)&tmp, len);
+					if (rc)
+						goto exit;
 
-					while (rc) {
-						nl_retry++;
-						if (rc == CORE_DUMP_TIMEOUT_RET) {
-							STP_BTM_ERR_FUNC("**dump send timeout : %d**\n", rc);
-							STP_BTM_INFO_FUNC("Exit..\n");
-							return 0;
-						}
-						if (nl_retry > 1000) {
-							STP_BTM_ERR_FUNC("**dump send fails, and retry more than 1000: %d.**\n", rc);
-							STP_BTM_INFO_FUNC("Exit..\n");
-							return 0;
-						}
-						STP_BTM_WARN_FUNC
-						    ("**dump send fails, and retry again.**\n");
-						osal_sleep_ms(3);
-						rc = stp_dbg_nl_send((PINT8) &tmp, 2, index+len);
-						if (!rc) {
-							STP_BTM_WARN_FUNC
-							    ("****retry again ok!**\n");
-						}
-					}
 					/* schedule(); */
 				} else {
 					STP_BTM_INFO_FUNC("dump entry length is over long\n");

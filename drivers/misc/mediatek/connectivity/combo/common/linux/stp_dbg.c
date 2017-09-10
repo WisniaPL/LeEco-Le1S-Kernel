@@ -958,7 +958,7 @@ INT32 wcn_core_dump_nl(P_WCN_CORE_DUMP_T dmp, PUINT8 buf, INT32 len)
 		break;
 
 	case CORE_DUMP_TIMEOUT:
-		ret = CORE_DUMP_TIMEOUT_RET;
+		ret = 32;
 		break;
 	default:
 		break;
@@ -1382,7 +1382,7 @@ static INT32 stp_dbg_nl_reset(struct sk_buff *skb, struct genl_info *info)
 	return 0;
 }
 
-INT8 stp_dbg_nl_send(PINT8 aucMsg, UINT8 cmd, INT32 len)
+INT32 stp_dbg_nl_send(PINT8 aucMsg, UINT8 cmd, INT32 len)
 {
 	struct sk_buff *skb = NULL;
 	PVOID msg_head = NULL;
@@ -1399,7 +1399,7 @@ INT8 stp_dbg_nl_send(PINT8 aucMsg, UINT8 cmd, INT32 len)
 	ret = wcn_core_dump_nl(g_core_dump, aucMsg, len);
 	if (ret < 0)
 		return ret;
-	if (ret == CORE_DUMP_TIMEOUT_RET) {
+	if (ret == 32) {
 		return ret;
 	}
 
@@ -1415,7 +1415,8 @@ INT8 stp_dbg_nl_send(PINT8 aucMsg, UINT8 cmd, INT32 len)
 				return -1;
 			}
 
-			rc = nla_put(skb, STP_DBG_ATTR_MSG, aucMsg);
+			/* rc = nla_put_string(skb, STP_DBG_ATTR_MSG, aucMsg); */
+			rc = nla_put(skb, STP_DBG_ATTR_MSG, len, aucMsg);
 			if (rc != 0) {
 				nlmsg_free(skb);
 				STP_DBG_DBG_FUNC("%s(): nla_put_string fail...: %d\n", __func__, rc);
