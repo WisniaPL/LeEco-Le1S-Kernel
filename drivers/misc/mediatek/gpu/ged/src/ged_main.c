@@ -93,31 +93,10 @@ static ssize_t ged_write(struct file *filp, const char __user *buf, size_t count
 
 static long ged_dispatch(GED_BRIDGE_PACKAGE *psBridgePackageKM)
 {
-    int ret = -EFAULT;
-    void *pvInt, *pvOut;
-    typedef int (ged_bridge_func_type)(void *, void *);
-    ged_bridge_func_type* pFunc = NULL;
-
-	/* We make sure the both size and the sum of them are GE 0 integer.
-	 * The sum will not overflow to zero, because we will get zero from two GE 0 integers
-	 * if and only if they are both zero in a 2's complement numeral system.
-	 * That is: if overflow happen, the sum will be a negative number.
-	 */
-    if (psBridgePackageKM->i32InBufferSize >= 0 && psBridgePackageKM->i32OutBufferSize >= 0
-            && psBridgePackageKM->i32InBufferSize + psBridgePackageKM->i32OutBufferSize >= 0
-            && psBridgePackageKM->i32InBufferSize + psBridgePackageKM->i32OutBufferSize
-            < GED_IOCTL_PARAM_BUF_SIZE)
-    {
-        pvInt = gvIOCTLParamBuf;
-        pvOut = (void *)((char *)pvInt + (uintptr_t)psBridgePackageKM->i32InBufferSize);
-        if (psBridgePackageKM->i32InBufferSize > 0)
-        {
-            if (0 != ged_copy_from_user(pvInt, psBridgePackageKM->pvParamIn, psBridgePackageKM->i32InBufferSize))
-            {
-                GED_LOGE("ged_copy_from_user fail\n");
-                return ret;
-            }
-        }
+	int ret = -EFAULT;
+	void *pvInt, *pvOut;
+	typedef int (ged_bridge_func_type)(void*, void*);
+	ged_bridge_func_type* pFunc = NULL;
 
 	if ((psBridgePackageKM->i32InBufferSize >=0) && (psBridgePackageKM->i32OutBufferSize >=0) &&
 			(psBridgePackageKM->i32InBufferSize + psBridgePackageKM->i32OutBufferSize < GED_IOCTL_PARAM_BUF_SIZE))
