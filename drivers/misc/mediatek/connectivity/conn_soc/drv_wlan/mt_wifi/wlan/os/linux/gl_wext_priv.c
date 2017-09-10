@@ -1888,10 +1888,11 @@ _priv_get_struct(IN struct net_device *prNetDev,
 	UINT_32 u4SubCmd = 0;
 	P_NDIS_TRANSPORT_STRUCT prNdisReq = NULL;
 
-	P_GLUE_INFO_T prGlueInfo = NULL;
-	UINT_32 u4BufLen = 0;
-	PUINT_32 pu4IntBuf = NULL;
-	int status = 0;
+    P_GLUE_INFO_T   prGlueInfo = NULL;
+    UINT_32         u4BufLen = 0;
+    PUINT_32        pu4IntBuf = NULL;
+    int             status = 0;
+    UINT_32         u4CopyDataMax = 0;
 
 	kalMemZero(&aucOidBuf[0], sizeof(aucOidBuf));
 
@@ -1952,10 +1953,14 @@ _priv_get_struct(IN struct net_device *prNetDev,
 		pu4IntBuf = (PUINT_32) prIwReqData->data.pointer;
 		prNdisReq = (P_NDIS_TRANSPORT_STRUCT) &aucOidBuf[0];
 
-		if (prIwReqData->data.length > (sizeof(aucOidBuf) - OFFSET_OF(NDIS_TRANSPORT_STRUCT, ndisOidContent))) {
-			DBGLOG(REQ, INFO, "priv_get_struct() exceeds length limit\n");
-			return -EFAULT;
-		}
+        u4CopyDataMax = sizeof(aucOidBuf) - OFFSET_OF(NDIS_TRANSPORT_STRUCT, ndisOidContent);
+        if ((prIwReqData->data.length>u4CopyDataMax)
+	    || copy_from_user(&prNdisReq->ndisOidContent[0],
+            prIwReqData->data.pointer,
+            prIwReqData->data.length)) {
+            DBGLOG(REQ, INFO, ("priv_get_struct() copy_from_user oidBuf fail\n"));
+            return -EFAULT;
+        }
 
 		if (copy_from_user(&prNdisReq->ndisOidContent[0],
 				   prIwReqData->data.pointer,
