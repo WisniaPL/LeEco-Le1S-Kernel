@@ -1279,6 +1279,7 @@ static void binder_transaction_buffer_release(struct binder_proc *proc,
 		case BINDER_TYPE_HANDLE:
 		case BINDER_TYPE_WEAK_HANDLE: {
 			struct binder_ref *ref = binder_get_ref(proc, fp->handle);
+
 			if (ref == NULL) {
 				pr_err("transaction release %d bad handle %d\n",
 				 debug_id, fp->handle);
@@ -1371,6 +1372,7 @@ static void binder_transaction(struct binder_proc *proc,
 	} else {
 		if (tr->target.handle) {
 			struct binder_ref *ref;
+
 			ref = binder_get_ref(proc, tr->target.handle);
 			if (ref == NULL) {
 				binder_user_error("%d:%d got transaction to invalid handle\n",
@@ -1576,6 +1578,7 @@ static void binder_transaction(struct binder_proc *proc,
 		case BINDER_TYPE_HANDLE:
 		case BINDER_TYPE_WEAK_HANDLE: {
 			struct binder_ref *ref = binder_get_ref(proc, fp->handle);
+
 			if (ref == NULL) {
 				binder_user_error("%d:%d got transaction with invalid handle, %d\n",
 						proc->pid,
@@ -3602,30 +3605,12 @@ static int binder_proc_show(struct seq_file *m, void *unused)
 {
 	struct binder_proc *proc = m->private;
 	int do_lock = !binder_debug_no_lock;
-#ifdef MTK_BINDER_DEBUG
-	struct binder_proc *tmp_proc;
-	bool find = false;
-#endif
 
 	if (do_lock)
 		binder_lock(__func__);
 	seq_puts(m, "binder proc state:\n");
-#ifdef MTK_BINDER_DEBUG
-	hlist_for_each_entry(tmp_proc, &binder_procs, proc_node)
-	{
-		if (proc == tmp_proc)
-		{
-			find = true;
-			break;
-		}
-	}
-	if (find == true)
-#endif
-		print_binder_proc(m, proc, 1);
-#ifdef MTK_BINDER_DEBUG
-	else
-		pr_debug("show proc addr 0x%p exit\n", proc);
-#endif
+	print_binder_proc(m, proc, 1);
+
 	if (do_lock)
 		binder_unlock(__func__);
 	return 0;
